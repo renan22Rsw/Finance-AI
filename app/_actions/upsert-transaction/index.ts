@@ -1,4 +1,5 @@
 "use server";
+
 import { db } from "@/app/_lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import {
@@ -6,14 +7,10 @@ import {
   TransactionPaymentMethod,
   TransactionType,
 } from "@prisma/client";
-import { addTransactionSchema } from "./schema";
+import { UpsertTransactionSchema } from "./schema";
 import { revalidatePath } from "next/cache";
 
-//server-actions
-
-//uma server aciton precisa ter seus parâmetros validados!
-
-interface addTransactionProps {
+interface UpsertTransactionParams {
   id?: string;
   name: string;
   amount: number;
@@ -23,17 +20,18 @@ interface addTransactionProps {
   date: Date;
 }
 
-export const addTransaction = async (params: addTransactionProps) => {
-  addTransactionSchema.parse(params); //validação com zod
+export const upsertTransaction = async (params: UpsertTransactionParams) => {
+  UpsertTransactionSchema.parse(params);
   const { userId } = await auth();
-
   if (!userId) {
-    throw new Error("Unauthorized!");
+    throw new Error("Unauthorized");
   }
-
-  await db.transaction.create({
-    data: { ...params, userId },
+  await db.transaction.upsert({
+    where: {
+      id: params.id,
+    },
+    update: { ...params, userId },
+    create: { ...params, userId },
   });
-
   revalidatePath("/transactions");
 };
