@@ -4,10 +4,22 @@ import { DataTable } from "../_components/ui/data-table";
 import { transactionsColumns } from "./_columns";
 import AddTransactionsButton from "../_components/add-transactions-button";
 import NavBar from "../_components/navbar";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const TransactionsPage = async () => {
   //acessar transações do meu banco de dados
-  const transactions = await db.transaction.findMany({}); //pega os dados
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/");
+  }
+
+  const transactions = await db.transaction.findMany({
+    where: {
+      userId,
+    },
+  }); //pega os dados
+
   return (
     <>
       <NavBar />
