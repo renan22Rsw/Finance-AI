@@ -17,7 +17,7 @@ const SummuryCard = ({
 }: SummuryCardProps) => {
   return (
     <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""}`}>
-      <CardHeader className="flex flex-row items-center gap-4">
+      <CardHeader className="flex-row items-center gap-4">
         {icon}
         <p
           className={`${size === "small" ? "text-muted-foreground opacity-70" : "text-white opacity-70"}`}
