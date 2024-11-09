@@ -4,7 +4,7 @@ import SummaryCards from "./_components/summaryCards";
 import TimeSelect from "./_components/time-select";
 import { isMatch } from "date-fns";
 import TransactionPieChart from "./_components/transaction-pie-chart";
-import { getDashboard } from "../_data/_getdashboard";
+import { getDashboard } from "../_data/get-dashboard";
 import ExpensePerCategory from "./_components/expense-per-category";
 
 interface HomeProps {
