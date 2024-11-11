@@ -7,6 +7,7 @@ import TransactionPieChart from "./_components/transaction-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
 import ExpensePerCategory from "./_components/expense-per-category";
 import LastTransactions from "./_components/last-transactions";
+import { canUserAddTransactions } from "../_data/can-user-add-transaction";
 
 interface HomeProps {
   searchParams: {
@@ -21,6 +22,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   }
 
   const dashboard = await getDashboard(month);
+  const userCanAddTransactions = await canUserAddTransactions();
 
   return (
     <>
@@ -34,7 +36,11 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
         <div className="grid w-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
           <div className="flex flex-col gap-6 overflow-hidden">
             <div className="grid-cols-1">
-              <SummaryCards month={month} {...dashboard} />
+              <SummaryCards
+                month={month}
+                {...dashboard}
+                userCanAddTransaction={userCanAddTransactions}
+              />
             </div>
 
             <div className="grid grid-cols-3 grid-rows-1 gap-6">

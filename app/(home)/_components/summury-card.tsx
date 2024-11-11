@@ -7,6 +7,7 @@ interface SummuryCardProps {
   title: string;
   amount: number;
   size?: "small" | "large";
+  userCanAddTransaction?: boolean;
 }
 
 const SummuryCard = ({
@@ -14,6 +15,7 @@ const SummuryCard = ({
   title,
   amount,
   size = "small",
+  userCanAddTransaction,
 }: SummuryCardProps) => {
   return (
     <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""}`}>
@@ -35,7 +37,11 @@ const SummuryCard = ({
           }).format(amount)}
         </p>
 
-        {size === "large" && <AddTransactionsButton />}
+        {size === "large" && (
+          <AddTransactionsButton
+            userCanAddTransaction={userCanAddTransaction}
+          />
+        )}
       </CardContent>
     </Card>
   );
