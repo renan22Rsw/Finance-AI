@@ -20,6 +20,9 @@ const TransactionsPage = async () => {
     where: {
       userId,
     },
+    orderBy: {
+      date: "desc",
+    },
   }); //pega os dados
 
   const userCanAddTransaction = await canUserAddTransactions();
