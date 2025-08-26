@@ -8,6 +8,7 @@ import { getDashboard } from "../_data/get-dashboard";
 import ExpensePerCategory from "./_components/expense-per-category";
 import LastTransactions from "./_components/last-transactions";
 import { canUserAddTransactions } from "../_data/can-user-add-transaction";
+import { auth } from "@clerk/nextjs/server";
 
 interface HomeProps {
   searchParams: {
@@ -16,6 +17,12 @@ interface HomeProps {
 }
 
 const Home = async ({ searchParams: { month } }: HomeProps) => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/login");
+  }
+
   const monthIsInvalid = !month || !isMatch(month, "MM");
   if (monthIsInvalid) {
     redirect(`?month=${new Date().getMonth() + 1}`);
@@ -27,16 +34,16 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   return (
     <>
       <NavBar />
-      <div className="flex-col space-y-6 overflow-hidden p-6">
+      <div className="flex-col space-y-6 p-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">DashBoard</h1>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-3">
             <TimeSelect />
           </div>
         </div>
 
-        <div className="grid w-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
-          <div className="flex flex-col gap-6 overflow-hidden">
+        <div className="w-full gap-6 space-y-4 md:grid md:grid-cols-[2fr,1fr] 2xl:overflow-hidden">
+          <div className="flex flex-col gap-6 2xl:overflow-hidden">
             <div className="grid-cols-1">
               <SummaryCards
                 month={month}
@@ -45,7 +52,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
               />
             </div>
 
-            <div className="grid grid-cols-3 grid-rows-1 gap-6">
+            <div className="gap-6 space-y-4 xl:flex">
               <TransactionPieChart {...dashboard} />
               <ExpensePerCategory
                 expensePerCategory={dashboard.totalExpensePerCategory}

@@ -9,11 +9,11 @@ const LoginPage = async () => {
   const { userId } = await auth();
 
   if (userId) {
-    redirect("/login");
+    redirect("/");
   }
 
   return (
-    <div className="grid h-full grid-cols-2">
+    <div className="grid h-full md:grid-cols-2">
       <div className="flex h-full max-w-[550px] flex-col justify-center p-8">
         <Image
           src={"/logo.svg"}

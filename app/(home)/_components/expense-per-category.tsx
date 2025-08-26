@@ -12,23 +12,37 @@ const ExpensePerCategory = ({
   expensePerCategory,
 }: ExpensePerCategoryProps) => {
   return (
-    <ScrollArea className="col-span-2 h-full rounded-md border pb-6">
+    <ScrollArea className="col-span-2 rounded-md border pb-6 xl:w-2/4">
       <CardHeader>
-        <CardTitle>Gastos por Categoria</CardTitle>
+        <CardTitle className="text-center text-lg font-bold sm:text-start">
+          Gastos por Categoria
+        </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {expensePerCategory.map((category) => (
-          <div key={category.category} className="space-y-2">
-            <div className="flex w-full justify-between">
-              <p className="text-sm font-bold">
-                {TRANSACTION_CATEGORY_LABELS[category.category]}
-              </p>
-              <p className="text-sm font-bold">{category.percentageOfTotal}%</p>
-            </div>
-            <Progress value={category.percentageOfTotal} />
+        {expensePerCategory.length > 0 ? (
+          <>
+            {expensePerCategory.map((category) => (
+              <div key={category.category} className="space-y-2">
+                <div className="flex w-full justify-between">
+                  <p className="text-sm font-bold">
+                    {TRANSACTION_CATEGORY_LABELS[category.category]}
+                  </p>
+                  <p className="text-sm font-bold">
+                    {category.percentageOfTotal}%
+                  </p>
+                </div>
+                <Progress value={category.percentageOfTotal} />
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className="flex h-[200px] items-center justify-center">
+            <p className="italic text-muted-foreground">
+              Adicione transações por categoria para ver os gastos por categoria
+            </p>
           </div>
-        ))}
+        )}
       </CardContent>
     </ScrollArea>
   );

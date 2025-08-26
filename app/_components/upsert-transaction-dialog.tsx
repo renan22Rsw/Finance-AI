@@ -41,6 +41,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { upsertTransaction } from "../_actions/upsert-transaction";
+import { useRouter } from "next/navigation";
 
 interface UpsertTransactionDialogProps {
   isOpen: boolean;
@@ -94,11 +95,14 @@ const UpsertTransactionDialog = ({
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: FormSchema) => {
     try {
       await upsertTransaction({ ...data, id: transactionId });
       setIsOpen(false);
       form.reset();
+      router.refresh();
     } catch (error) {
       console.error(error);
     }

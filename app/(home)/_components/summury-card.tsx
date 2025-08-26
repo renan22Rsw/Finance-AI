@@ -22,15 +22,13 @@ const SummuryCard = ({
       <CardHeader className="flex-row items-center gap-4">
         {icon}
         <p
-          className={`${size === "small" ? "text-muted-foreground opacity-70" : "text-white opacity-70"}`}
+          className={`${size === "small" ? "text-muted-foreground opacity-70" : "text-white opacity-70"} `}
         >
           {title}
         </p>
       </CardHeader>
-      <CardContent className="flex justify-between">
-        <p
-          className={`font-bold ${size === "small" ? "text-2xl" : "text-4xl"}`}
-        >
+      <CardContent className="space-y-2 sm:flex sm:items-center sm:justify-between">
+        <p className="text-justify text-lg font-bold lg:text-2xl 2xl:text-3xl">
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",

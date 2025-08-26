@@ -34,49 +34,61 @@ const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
   return (
     <ScrollArea className="rounded-md border">
       <CardHeader className="flex-row items-center justify-between">
-        <CardTitle className="font-bold">Últimas Transações</CardTitle>
+        <CardTitle className="text-lg font-bold">Últimas Transações</CardTitle>
         <Button variant={"outline"} className="rounded-full font-bold">
           <Link href={"/transactions"}>Ver mais</Link>
         </Button>
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {lastTransactions.map((transation) => (
+        {lastTransactions.length > 0 ? (
           <>
-            <div
-              className="flex items-center justify-between"
-              key={transation.id}
-            >
-              <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-white bg-opacity-[3%] p-3">
-                  <Image
-                    src={
-                      TRANSACTION_PAYMENT_METHOD_ICONS[transation.paymentMethod]
-                    }
-                    height={20}
-                    width={20}
-                    alt="pix"
-                  />
-                </div>
+            {lastTransactions.map((transation) => (
+              <div
+                className="flex justify-between md:items-center"
+                key={transation.id}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="rounded-lg bg-white bg-opacity-[3%] p-3">
+                    <Image
+                      src={
+                        TRANSACTION_PAYMENT_METHOD_ICONS[
+                          transation.paymentMethod
+                        ]
+                      }
+                      height={20}
+                      width={20}
+                      alt="pix"
+                    />
+                  </div>
 
-                <div>
-                  <p className="text-sm font-bold">{transation.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {new Date(transation.date).toLocaleDateString("pt-BR", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </p>
+                  <div>
+                    <p className="text-sm font-bold">{transation.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {new Date(transation.date).toLocaleDateString("pt-BR", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </div>
                 </div>
+                <p
+                  className={`text-sm font-bold ${getAmountColor(transation)}`}
+                >
+                  {getAmountPrefix(transation)}
+                  {formatCurrency(Number(transation.amount))}
+                </p>
               </div>
-              <p className={`text-sm font-bold ${getAmountColor(transation)}`}>
-                {getAmountPrefix(transation)}
-                {formatCurrency(Number(transation.amount))}
-              </p>
-            </div>
+            ))}
           </>
-        ))}
+        ) : (
+          <div className="flex h-[200px] items-center justify-center">
+            <p className="italic text-muted-foreground">
+              Nenhuma transação encontrada
+            </p>
+          </div>
+        )}
       </CardContent>
     </ScrollArea>
   );

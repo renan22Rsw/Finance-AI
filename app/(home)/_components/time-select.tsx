@@ -36,10 +36,11 @@ const TimeSelect = () => {
   return (
     <Select
       onValueChange={(value) => handleMonthChange(value)}
-      defaultValue={month ?? ""}
+      defaultValue={month as string}
+      value={month as string}
     >
       <SelectTrigger className="w-[150px] rounded-full">
-        <SelectValue placeholder="Mês" />
+        <SelectValue placeholder="Select a timezone" />
       </SelectTrigger>
       <SelectContent>
         {MONTH_OPTIONS.map((option) => (

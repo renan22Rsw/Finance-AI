@@ -19,15 +19,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clerkConfig = {
+    appearance: {
+      baseTheme: dark,
+    },
+    publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  };
+
   return (
     <html lang="en">
       <body className={`${mulish.className} dark antialiased`}>
-        <ClerkProvider
-          appearance={{
-            baseTheme: dark,
-          }}
-        >
-          <div className="flex h-full flex-col overflow-hidden">{children}</div>
+        <ClerkProvider {...clerkConfig}>
+          <div className="flex h-full flex-col">{children}</div>
         </ClerkProvider>
         <Toaster />
       </body>

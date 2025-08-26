@@ -26,6 +26,7 @@ export const POST = async (request: Request) => {
       const { customer, subscription, subscription_details } =
         event.data.object;
       const clerkUserId = subscription_details?.metadata?.clerk_user_id;
+
       if (!clerkUserId) {
         return NextResponse.error();
       }
